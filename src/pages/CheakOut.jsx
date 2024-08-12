@@ -1,17 +1,18 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 
 const Checkout = () => {
   const cart = useSelector((state) => state.cart.items);
-  console.log(cart)
-  
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    paymentMethod: 'cod',
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    paymentMethod: "cod",
   });
 
   const handleChange = (e) => {
@@ -21,7 +22,7 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.paymentMethod === 'cod') {
+    if (formData.paymentMethod === "cod") {
       const willOrder = await swal({
         title: "Are you sure?",
         text: "Are you sure that you want to order the product?",
@@ -37,33 +38,45 @@ const Checkout = () => {
         };
 
         try {
-          const response = await fetch('http://localhost:3000/api/orders', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(orderDetails),
-          });
+          const response = await fetch(
+            "https://campers-shop-backend-dun.vercel.app/api/orders",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(orderDetails),
+            }
+          );
 
           if (response.ok) {
             swal("Succeed", "Successfully ordered the product", "success");
             // Clear form and cart after successful order
             setFormData({
-              name: '',
-              email: '',
-              phone: '',
-              address: '',
-              paymentMethod: 'cod',
+              name: "",
+              email: "",
+              phone: "",
+              address: "",
+              paymentMethod: "cod",
             });
+            navigate("/");
           } else {
-            swal("Error", "Failed to place the order. Please try again.", "error");
+            swal(
+              "Error",
+              "Failed to place the order. Please try again.",
+              "error"
+            );
           }
         } catch (error) {
-          swal("Error", "Failed to place the order. Please try again.", "error");
+          swal(
+            "Error",
+            "Failed to place the order. Please try again.",
+            "error"
+          );
         }
       }
     } else {
-      alert('Stripe payment integration is required.');
+      alert("Stripe payment integration is required.");
     }
   };
 

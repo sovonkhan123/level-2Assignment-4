@@ -25,7 +25,7 @@ const ProductUpdate = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/products/${id}`
+          `https://campers-shop-backend-dun.vercel.app/api/products/${id}`
         );
         setProductData(response.data);
         setLoading(false);
@@ -57,7 +57,7 @@ const ProductUpdate = () => {
        
       if (willDelete) {
         try {
-            await axios.put(`http://localhost:3000/api/products/${id}`, productData);
+            await axios.put(`https://campers-shop-backend-dun.vercel.app/api/products/${id}`, productData);
             navigate('/productManagement')
           } catch (err) {
             setError("Failed to update product");

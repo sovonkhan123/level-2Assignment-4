@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async (searchTerm) => {
-    const url = new URL("http://localhost:3000/api/products");
+    const url = new URL("https://campers-shop-backend-dun.vercel.app/api/products");
     if (searchTerm) {
       url.searchParams.append("search", searchTerm);
     }
@@ -17,7 +17,7 @@ export const fetchProductDetails = createAsyncThunk(
   "products/fetchProductDetails",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/products/${id}`);
+      const response = await fetch(`https://campers-shop-backend-dun.vercel.app/api/products/${id}`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -32,7 +32,7 @@ export const fetchProductDetails = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
   "products/deleteProduct",
   async (id) => {
-    await fetch(`http://localhost:3000/api/products/${id}`, {
+    await fetch(`https://campers-shop-backend-dun.vercel.app/api/products/${id}`, {
       method: "DELETE",
     });
     return id;
