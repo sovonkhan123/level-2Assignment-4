@@ -2,11 +2,25 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async (searchTerm) => {
-    const url = new URL("https://campers-shop-backend-dun.vercel.app/api/products");
+  async ({ searchTerm, categoryFilter, priceRange, sortOrder }) => {
+    const url = new URL(
+      "https://campers-shop-backend-dream.vercel.app/api/products"
+    );
+
     if (searchTerm) {
       url.searchParams.append("search", searchTerm);
     }
+    if (categoryFilter) {
+      url.searchParams.append("category", categoryFilter);
+    }
+    if (priceRange) {
+      url.searchParams.append("minPrice", priceRange[0]);
+      url.searchParams.append("maxPrice", priceRange[1]);
+    }
+    if (sortOrder) {
+      url.searchParams.append("sort", sortOrder);
+    }
+
     const response = await fetch(url);
     const data = await response.json();
     return data;
@@ -17,7 +31,9 @@ export const fetchProductDetails = createAsyncThunk(
   "products/fetchProductDetails",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await fetch(`https://campers-shop-backend-dun.vercel.app/api/products/${id}`);
+      const response = await fetch(
+        `https://campers-shop-backend-dream.vercel.app/api/products/${id}`
+      );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -32,9 +48,12 @@ export const fetchProductDetails = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
   "products/deleteProduct",
   async (id) => {
-    await fetch(`https://campers-shop-backend-dun.vercel.app/api/products/${id}`, {
-      method: "DELETE",
-    });
+    await fetch(
+      `https://campers-shop-backend-dream.vercel.app/api/products/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
     return id;
   }
 );

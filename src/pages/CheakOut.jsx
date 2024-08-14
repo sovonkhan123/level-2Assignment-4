@@ -39,7 +39,7 @@ const Checkout = () => {
 
         try {
           const response = await fetch(
-            "https://campers-shop-backend-dun.vercel.app/api/orders",
+            "https://campers-shop-backend-dream.vercel.app/api/orders",
             {
               method: "POST",
               headers: {

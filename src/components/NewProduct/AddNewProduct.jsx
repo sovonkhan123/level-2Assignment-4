@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addProduct } from "../../redux/slices/ProductsSlice";
+import swal from "sweetalert";
 
 const AddNewProduct = () => {
   const [name, setName] = useState("");
@@ -45,10 +46,19 @@ const AddNewProduct = () => {
     };
 
     // Dispatch the addProduct action to Redux
-    dispatch(addProduct(newProduct));
-
-    // Redirect to the product management page
-    navigate("/admin/products");
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to create a new product?",
+      icon: "",
+      dangerMode: false,
+    }).then((willDelete) => {
+      if (willDelete) {
+        dispatch(addProduct(newProduct));
+        swal("succeed!", "You successfully created a new product", "success");
+        // Redirect to the product management page
+        navigate("/productManagement");
+      }
+    });
   };
   return (
     <div className="container mx-auto p-4 mt-20">
